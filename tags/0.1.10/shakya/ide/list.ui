@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<window class="GtkWindow">
+    <property name="name">widgetBrowser</property>
+    <property name="visible">True</property>
+    <property name="title">Shakya:日本語</property>
+    <object class="GtkVBox">
+        <property name="visible">True</property>
+        <object class="GtkHandleBox">
+            <property name="name">HandleBox</property>
+            <property name="visible">True</property>
+            <object class="GtkToolbar">
+                <property name="name">Toolbar</property>
+                <property name="visible">True</property>
+                <object class="GtkToolButton">
+                    <property name="name">okButton</property>
+                    <property name="visible">True</property>
+                    <property name="label">Ok</property>
+                </object>
+                <object class="GtkToolButton"> 
+                    <property name="name">cancelButton</property> 
+                    <property name="visible">True</property>
+                    <property name="label">Cancel</property>
+                </object>
+            </object>
+            <child-property name="expand">False</child-property> 
+        </object>
+        <object class="GtkScrolledWindow">         
+            <property name="visible">True</property>
+            <object class="GtkTreeView">
+                <property name="name">treeView</property>
+                <property name="visible">True</property>
+            </object>
+        </object>
+    </object>
+</window>
