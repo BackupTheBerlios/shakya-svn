@@ -1,0 +1,33 @@
+0.1.8:
+Many enhancements to the IDE. Well, now we can see it :)
+There is now a widget/object writer (xml/minidom)
+Rewrite of the loader (using minidom, not sax anymore)
+Changed the structure of the .ui files.
+You can open old and new .ui files
+You can import widget from .glade files
+
+
+0.1.7:
+Framework evolution.
+Improved the widget loader.
+We can describe actions on the .ui files.
+It is possible to connect actions with MenuItems and ToolButtons. 
+
+
+0.1.6:
+We have a basic framework by now. 
+There is a widget loader (xml/sax).
+You can use the 'fw.Widget' class as a smart proxy to the .ui files.
+As we have no IDE you have to write .ui files by hand :(
+There is a fw.Application incapsulating the application.
+This class is used for starting and stopping the application.
+
+
+0.1.5:
+0.1.4:
+0.1.3:
+0.1.2:
+0.1.1:
+0.1.0:
+Premature code.
+
