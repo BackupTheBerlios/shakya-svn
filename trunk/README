@@ -1,0 +1,31 @@
+Shakya PyGTK Framework/IDE
+Copyright (C) 2005 - Eric Jardim <ericjardim@gmail.com>
+
+
+1. About:
+Shakya is a Free Software (GPL) framework for easy and quickly building powerfull applications with Python and PyGTK. Besides, there is also an IDE, made with this same framework, thus users can graphically desing Shakya/PyGTK applications.
+
+
+2. Using:
+To use the framework and IDE, just put the 'shakya' package under a Python searchable path (ex: /usr/lib/python2.3/site-packages) or set PYTHONPATH environment variable to where you install it 
+ex: 
+export PYTHONPATH=/home/eric/shakya-0.1.7
+
+
+2.1 Using the Framework:
+You can use the framework classes just importing the Shakya namespace module:
+>>> import shakya.fw as fw
+>>> class MainWindow(fw.Widget):
+...     uifile = 'mainwindow.ui'
+>>> window = MainWindow()
+>>> window.show()
+>>> fw.Application.run()
+
+
+2.2 Using the IDE:
+To use the IDE, just run the 'shakya_ide.py' on the root directory of the uncompressed tarball:
+$ python shakya_ide.py
+
+
+Have fun :)
+

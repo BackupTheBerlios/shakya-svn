@@ -23,8 +23,8 @@ import gtk
 import shakya 
 import shakya.fw as fw 
 import property.info 
-#import propertyfilters as filters
-#import shakya.fw.property as property
+
+_tabs = { 0: 'standard_tab', 1: 'common_tab', -1: 'packing_tab', -2: 'signals_tab'}
 
 
 class PropertyBrowser(fw.Widget):
@@ -41,34 +41,45 @@ class PropertyBrowser(fw.Widget):
         self.__object = obj
         self.update()
     
-    def clean(self, size):
-        tab = self.child('standard_tab')
-        for w in tab.get_children():
-            tab.remove(w)
-        tab.resize(size+1, 2)
+    def clean(self):
+        for context in _tabs.values():
+            tab = self[context]
+            
+            for w in tab.get_children():
+                tab.remove(w)
+                w.destroy()
+            
+            tab.resize(1, 2)
+
+    def add_handler(self, title, handler, context):
+        tab = self[_tabs[context]]
+        
+        row = tab.get_property('n-rows')
+        tab.set_property('n-rows', row+1)
+        
+        label = gtk.Label(title)
+        label.show()        
+        tab.attach(label, 0, 1, row-1, row, yoptions=gtk.SHRINK, xoptions=gtk.SHRINK)  
+        tab.attach(handler, 1, 2, row-1, row, yoptions=gtk.SHRINK, xoptions=gtk.EXPAND|gtk.FILL)
     
+    def add_spacers(self):
+        for name in _tabs.values():
+            tab = self[name]
+            row = tab.get_property('n-rows')
+            tab.attach(self.spacer, 0, 2, row-1, row)
+
     def update(self):
         obj = self.__object
         infos = property.info.fetch(obj)
         print infos
         
-        tab = self.child('standard_tab')        
-        self.clean(len(infos))
+        self.clean()
         
-        i = 0
         for info in infos:
-            label = gtk.Label()
-            label.set_text(info.name)
-            label.show()
-            
-            tab.attach(label, 0, 1, i, i+1, yoptions=gtk.SHRINK) 
-            
-            handler = info.Handler(obj, info)
-            widget = handler.get_widget()
-            tab.attach(widget, 1, 2, i, i+1, yoptions=gtk.SHRINK)
-            i += 1
+            handler = info.Handler(obj, info)            
+            self.add_handler(info.name, handler.get_widget(), info.tab)
         
-        tab.attach(self.spacer, 1, 2, i, i+1)
+        self.add_spacers()
 
     def on_property_browser__delete_event(self, widget, event):
         widget.hide()

@@ -101,12 +101,26 @@ def fetch(obj):
 
 
 __builtin = { 
-    'GtkWidget': [Info('name', 0), Info('sensitive', 0), Info('visible', 0), Info('can-focus', 0)],
-    'GtkWindow': [Info('title', 0)],
-    'GtkMisc': [Info('xalign', 0, value=0.5, bottom=0, top=1, step=0.01, digits=2),
-                Info('yalign', 0, value=0.5, bottom=0, top=1, step=0.01, digits=2)],
-    'GtkLabel': [Info('angle', 0, value=0, bottom=0, top=360, step=1, digits=0)],
-    'GtkEntry': [Info('text', 0)]
+    'GtkWidget': [
+        Info('name', 0), 
+        Info('sensitive', 1, inert=True, value=True), Info('visible', 1, inert=True, value=True),
+        Info('can-focus', 1), Info('has-focus', 1),
+        Info('can-default', 1), Info('receives-default', 1), Info('has-default', 1)
+    ], 
+    'GtkWindow': [
+        Info('title', 0)
+    ],
+    'GtkMisc': [
+        Info('xalign', 0, value=0.5, bottom=0, top=1, step=0.01, digits=2),
+        Info('yalign', 0, value=0.5, bottom=0, top=1, step=0.01, digits=2)
+    ],
+    'GtkLabel': [
+        Info('angle', 0, value=0, bottom=0, top=360, step=1, digits=0),
+        Info('label', 0)
+    ],
+    'GtkEntry': [
+        Info('text', 0)
+    ]
 }
 print 'builtin infos:', __builtin
 

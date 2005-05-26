@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-3.5.dtd">
 <!-- Project file for project Shakya -->
-<!-- Saved: 2005-05-15, 14:04:44 -->
+<!-- Saved: 2005-05-26, 05:37:42 -->
 <!-- Copyright (C) 2005 Eric Jardim, ericjardim@gmail.com -->
 <Project version="3.5">
   <Description>Shakya is a combination of a Framework and IDE for developing applications with PyGTK</Description>
@@ -15,23 +15,8 @@
     </Source>
     <Source>
       <Dir>shakya</Dir>
-      <Dir>fw</Dir>
-      <Name>__init__.py</Name>
-    </Source>
-    <Source>
-      <Dir>shakya</Dir>
-      <Dir>fw</Dir>
-      <Name>loader.py</Name>
-    </Source>
-    <Source>
-      <Dir>shakya</Dir>
       <Dir>ide</Dir>
       <Name>__init__.py</Name>
-    </Source>
-    <Source>
-      <Dir>shakya</Dir>
-      <Dir>fw</Dir>
-      <Name>property.py</Name>
     </Source>
     <Source>
       <Dir>shakya</Dir>
@@ -42,16 +27,6 @@
       <Dir>shakya</Dir>
       <Dir>ide</Dir>
       <Name>mainwindow.py</Name>
-    </Source>
-    <Source>
-      <Dir>shakya</Dir>
-      <Dir>fw</Dir>
-      <Name>widget.py</Name>
-    </Source>
-    <Source>
-      <Dir>shakya</Dir>
-      <Dir>fw</Dir>
-      <Name>application.py</Name>
     </Source>
     <Source>
       <Dir>shakya</Dir>
@@ -67,14 +42,6 @@
       <Dir>shakya</Dir>
       <Dir>ide</Dir>
       <Name>savedialog.py</Name>
-    </Source>
-    <Source>
-      <Name>shakya_ide.py</Name>
-    </Source>
-    <Source>
-      <Dir>shakya</Dir>
-      <Dir>fw</Dir>
-      <Name>saver.py</Name>
     </Source>
     <Source>
       <Dir>shakya</Dir>
@@ -99,6 +66,9 @@
       <Dir>property</Dir>
       <Name>handler.py</Name>
     </Source>
+    <Source>
+      <Name>shakya-ide.py</Name>
+    </Source>
   </Sources>
   <Forms>
   </Forms>
@@ -109,7 +79,7 @@
   <Others>
   </Others>
   <MainScript>
-    <Name>shakya_ide.py</Name>
+    <Name>shakya-ide.py</Name>
   </MainScript>
   <Vcs>
     <VcsType>None</VcsType>

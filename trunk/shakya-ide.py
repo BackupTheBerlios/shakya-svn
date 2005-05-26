@@ -18,9 +18,6 @@
 #    59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             #
 ############################################################################
 
-print 'starting Shakya framework...'
+from shakya import ide
 
-from loader import *
-from application import Application
-from widget import Widget
-
+ide.run()

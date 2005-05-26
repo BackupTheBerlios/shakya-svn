@@ -94,9 +94,16 @@ class GParamBoolean_handler(PropertyHandler):
 
 class GParamString_handler(PropertyHandler):
     def init(self, owner, info, **opt):
-        self.widget = gtk.Entry()
-        self.widget.show()
-
+        entry = gtk.Entry()
+        self.widget = entry
+        entry.show()
+        entry.set_text(owner.get_property(info.name))
+        entry.connect("activate", self.on__entry__activate)
+    
+    def on__entry__activate(self, entry):
+        # TODO: put an optional validation function here
+        self.owner.set_property(self.info.name, entry.get_text())        
+    
 
 class GParamUInt_handler(PropertyHandler):
     pass
