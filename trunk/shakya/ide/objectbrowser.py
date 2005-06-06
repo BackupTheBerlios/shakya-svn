@@ -21,17 +21,13 @@
 import gobject
 import gtk
 import shakya 
-import shakya.fw as fw 
+from shakya import Widget
 
 
-class WidgetTree(fw.Widget):
-    uifile = shakya.basedir()+'ide/widgettree.ui'
+class WidgetTree(Widget):
+    uifile = 'widgettree.ui'
 
-    def __init__(self, owner):
-        fw.Widget.__init__(self)
-        
-        self._owner = owner
-        
+    def init(self):
         # name, class
         self._model = gtk.TreeStore(str, str, object)
         treeview = self['treeview']
@@ -68,7 +64,7 @@ class WidgetTree(fw.Widget):
         #model = self._model
         #iter = model.get_iter(path)
         widget, = model.get(iter, 2)
-        self._owner.set_current_widget(widget)
+        self.owner().set_current_widget(widget)
         
     
     def selected(self, treeview, path, view_column):

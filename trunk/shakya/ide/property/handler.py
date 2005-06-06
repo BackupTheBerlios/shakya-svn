@@ -20,7 +20,7 @@
 
 import gobject
 import gtk
-import shakya.fw.property as property
+from shakya import property
 
 _default_handlers = {}
 

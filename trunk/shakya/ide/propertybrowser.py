@@ -21,17 +21,16 @@
 import gobject
 import gtk
 import shakya 
-import shakya.fw as fw 
+from shakya import Widget
 import property.info 
 
 _tabs = { 0: 'standard_tab', 1: 'common_tab', -1: 'packing_tab', -2: 'signals_tab'}
 
 
-class PropertyBrowser(fw.Widget):
-    uifile = shakya.basedir()+'ide/propertybrowser.ui'
+class PropertyBrowser(Widget):
+    uifile = 'propertybrowser.ui'
     
-    def __init__(self):
-        fw.Widget.__init__(self)
+    def init(self):
         self.__object = None
         self.spacer = gtk.Frame()        
     

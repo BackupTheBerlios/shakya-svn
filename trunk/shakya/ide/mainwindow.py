@@ -22,9 +22,9 @@ import gobject
 import gtk
 import gtk.glade as glade
 import shakya 
-import shakya.fw as fw
-import shakya.fw.loader as loader
-import shakya.fw.saver as saver
+from shakya import Widget, Application
+from shakya import loader
+from shakya import saver
 from propertybrowser import PropertyBrowser
 from opendialog import OpenDialog
 from savedialog import SaveDialog
@@ -37,8 +37,8 @@ default_locations = { 'main_window': (0, 0),
                     }
 
 
-class MainWindow(fw.Widget):
-    uifile = shakya.basedir()+'ide/mainwindow.ui'
+class MainWindow(Widget):
+    uifile = 'mainwindow.ui'
 
     def init(self):
         # get screen
@@ -51,7 +51,7 @@ class MainWindow(fw.Widget):
         self.move(0,0)
         #print self.get_position()
        
-        browser = PropertyBrowser()
+        browser = PropertyBrowser(self)
         browser.show()
         self.browser = browser
         
@@ -78,18 +78,18 @@ class MainWindow(fw.Widget):
         self.tree.set_widget(window)
     
     
-    def on_import_ui__activate(self, action):
-        filters = [("User Interface files (*.ui)", "*.ui"),
-                   ("All files", "*")]
-        dialog = OpenDialog(self['main_window'], filters)
-        res = dialog.run()
-        
-        if res == gtk.RESPONSE_OK:
-            filename = dialog.get_filename()
-            window = loader.load_widget(filename)
-            self.set_current_window(window)
-        
-        dialog.destroy()
+#    def on_import_ui__activate(self, action):
+#        filters = [("User Interface files (*.ui)", "*.ui"),
+#                   ("All files", "*")]
+#        dialog = OpenDialog(self['main_window'], filters)
+#        res = dialog.run()
+#        
+#        if res == gtk.RESPONSE_OK:
+#            filename = dialog.get_filename()
+#            window = loader.load_widget(filename)
+#            self.set_current_window(window)
+#        
+#        dialog.destroy()
 
     def on_import_glade__activate(self, action):
         filters = [("Glade files (*.glade)", "*.glade"),
@@ -101,7 +101,7 @@ class MainWindow(fw.Widget):
             filename = dialog.get_filename()
             print filename
             
-            seldialog = SelectDialog()
+            seldialog = SelectDialog(self)
             widgets = loader.get_glade_widgets(filename)
             seldialog.set_options(widgets)
             seldialog.set_transient_for(self['main_window'])
@@ -151,7 +151,7 @@ class MainWindow(fw.Widget):
 
     def quit(self):
         print 'ending Shakya IDE'
-        fw.Application.quit()
+        self.app().quit()
 
     def set_current_widget(self, widget):
         self.browser.set_object(widget)

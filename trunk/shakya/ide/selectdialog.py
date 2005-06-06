@@ -21,14 +21,14 @@
 import gobject
 import gtk
 import shakya
-import shakya.fw as fw
+from shakya import Widget
 
 
-class SelectDialog(fw.Widget):
-    uifile = shakya.basedir()+'/ide/selectdialog.ui'
+class SelectDialog(Widget):
+    uifile = 'selectdialog.ui'
 
     def __init__(self):
-        fw.Widget.__init__(self)
+        Widget.__init__(self)
         self.selected = None        
         self._model = gtk.ListStore(gobject.TYPE_STRING, gobject.TYPE_STRING)
         

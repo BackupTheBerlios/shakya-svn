@@ -18,6 +18,22 @@
 #    59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             #
 ############################################################################
 
-from shakya import ide
+#shakya.ide import ShakyaIDE
 
+import shakya.ide
+from shakya.application import Application
+from shakya.ide.mainwindow import MainWindow
+
+class ShakyaIDE(Application): 
+    def init(self):
+        print 'ShakyaIDE:', __file__
+        mainwindow = MainWindow(self)
+        mainwindow.show()
+
+    def term(self):
+        print 'term'
+
+
+print 'starting Shakya IDE...'
+ide = ShakyaIDE(shakya.ide) #, context='shakya-ide')
 ide.run()

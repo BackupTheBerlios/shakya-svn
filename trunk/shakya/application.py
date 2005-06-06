@@ -19,18 +19,47 @@
 ############################################################################
 
 import gtk
+import os
+
 
 class Application:
-    def __init__(self):
-        raise RuntimeError
-
-    __started = False
-
-    def run():
-        gtk.main()
-    run = staticmethod(run)
+    __context = {}
     
-    def quit():
+    def __init__(self, root, context=None):        
+        self.__path = os.path.split(root.__file__)[0]+'/'
+        print 'root:', self.__path
+            
+        if context:
+            if Application.__context.has_key(context):  
+                self = Application.__context[context]
+            else:
+                Application.__context[context] = self
+        else:
+            pid = str(os.getpid())            
+            if Application.__context.has_key(pid):
+                self = Application.__context[pid]
+            else:
+                Application.__context[pid] = self
+        
+        print '>>>', self, type(self)
+    
+    def path(self):
+        return self.__path
+    
+    def run(self):
+        init = getattr(self, 'init')
+        if init and callable(init):
+            init()
+        gtk.main()
+        print '### pos-main ###' 
+    
+    #run = staticmethod(run)
+    
+    def quit(self):
+        term = getattr(self, 'term')
+        if term and callable(term):
+            term()
         gtk.main_quit()
-    quit = staticmethod(quit)
+        
+    #quit = staticmethod(quit)
     

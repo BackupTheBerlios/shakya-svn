@@ -18,9 +18,16 @@
 #    59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             #
 ############################################################################
 
-print 'starting Shakya framework...'
-
-from loader import *
+import os
 from application import Application
 from widget import Widget
 
+
+print 'starting shakya framework...'
+
+__path = os.path.split(__file__)[0]+'/'
+print 'shakya:', __path
+del os
+
+def path():
+    return __path

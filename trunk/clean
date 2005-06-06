@@ -1,6 +1,6 @@
 #!/bin/bash
 rm *.pyc
 cd shakya && rm *.pyc
-cd fw && rm *.pyc && cd ..
 cd ide && rm *.pyc 
+cd property && rm *.pyc
 

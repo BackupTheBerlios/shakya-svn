@@ -18,20 +18,8 @@
 #    59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             #
 ############################################################################
 
-print 'starting Shakya IDE...'
 
-import shakya.fw as fw
-from mainwindow import MainWindow
+    
 
-#modules = [('propertybrowser', 'PropertyBrowser'),
-#           ('mainwindow', 'MainWindow')]
-#for entry in modules:
-#    code = 'from %s import %s' % entry
-#    exec code    
-#del modules, entry
 
-def run():
-    mainwindow = MainWindow()
-    mainwindow.init()
-    mainwindow.show()
-    fw.Application.run()
+

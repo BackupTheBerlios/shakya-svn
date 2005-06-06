@@ -21,6 +21,7 @@
 import gtk
 import loader
 #import gtk.glade as glade
+from application import Application
 
 
 def _parse_signal_handler(handler):
@@ -33,18 +34,29 @@ def hi(widget, data=None):
 
 
 class Widget:
-    def __init__(self, ltype=None):
+    def __init__(self, owner):
+        if isinstance(owner, Application):
+            app = owner
+        else:
+            app = owner.app()            
+        self.__owner = owner
+        self.__app = app
+        
         self.__actions = {}
         
-        if ltype:
-            self._widget = loader.load_widget(self.uifile)
-        else:
-            self._widget = loader.load_ui(self.uifile)
+        #if ltype:
+        #    self._widget = loader.load_widget(self.uifile)
+        #else:
+        
+        self._widget = loader.load_ui(app.path()+self.uifile)
         self._find_children()
         self._connect_signals()
         self._widget.connect('destroy', self._byebye)
         for child in self._widgets.values():
             hi(child)
+        
+        init = getattr(self, 'init')
+        if init and callable(init): init()
 
     def _find_children(self):
         stack = self.get_children()
@@ -95,6 +107,12 @@ class Widget:
                     print 'Error: unknown signal "'+signal+'" for widget "'+widget+'"'
                 except KeyError:
                     print 'Error: could not bind signal "'+signal+'" to widget "'+widget+'"'
+
+    def app(self):
+        return self.__app
+    
+    def owner(self):
+        return self.__owner    
 
     def child(self, name=None):
         if name is None:
