@@ -65,12 +65,13 @@ class WidgetTree(Widget):
         #iter = model.get_iter(path)
         widget, = model.get(iter, 2)
         self.owner().set_current_widget(widget)
-        
+        #self.__widget.show()
     
     def selected(self, treeview, path, view_column):
         print 'selected'
 
     def set_widget(self, widget):
+        self.__widget = widget
         model = self._model
         model.clear()        
         self.append_widget_to_model(widget, None, model)

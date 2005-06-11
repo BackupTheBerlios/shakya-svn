@@ -19,23 +19,24 @@
 ############################################################################
 
 import gtk
-import os
+from shakya.widget import Widget
 
-
-class Application:
-    def __init__(self, module, **opt):
-        self.__path = os.path.split(module.__file__)[0]+'/'
+class Editor(Widget):
+    """ 
+    The editor is where all the source code is edited by the user.
     
-    def path(self):
-        return self.__path
+    It is composed by notebook tabs, each holding a single file being edited.
+    """
     
-    def run(self):
-        try:
-            gtk.main()
-        except e:
-            print '### Error:', e
-    
-    def quit(self):
-        gtk.main_quit()
+    def load(self):
+        notebook = gtk.Notebook()
+        notebook.set_name('notebook')
         
-    
+        label = gtk.Label('Editor')
+        label.show()
+        notebook.add(label)
+        
+        self._widget = notebook
+
+    def init(self, **opt):
+        pass    

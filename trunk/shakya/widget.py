@@ -20,7 +20,6 @@
 
 import gtk
 import loader
-#import gtk.glade as glade
 from application import Application
 
 
@@ -34,7 +33,7 @@ def hi(widget, data=None):
 
 
 class Widget:
-    def __init__(self, owner):
+    def __init__(self, owner, **opt):
         if isinstance(owner, Application):
             app = owner
         else:
@@ -44,20 +43,28 @@ class Widget:
         
         self.__actions = {}
         
-        #if ltype:
-        #    self._widget = loader.load_widget(self.uifile)
-        #else:
+        # virtual method for custom loading
+        self.load()
         
-        self._widget = loader.load_ui(app.path()+self.uifile)
         self._find_children()
         self._connect_signals()
         self._widget.connect('destroy', self._byebye)
         for child in self._widgets.values():
             hi(child)
         
-        init = getattr(self, 'init')
-        if init and callable(init): init()
+        self.init(**opt)
 
+    def init(self, **opt):
+        pass
+
+    def term(self):
+        pass
+
+    def load(self):
+        path = self.app().path()
+        self._widget = loader.load_ui(path+self.uifile)
+    
+    
     def _find_children(self):
         stack = self.get_children()
         map = { self.get_name(): self._widget }
@@ -89,11 +96,11 @@ class Widget:
         for attrib in dir(self):
             print attrib
             connect = None                
-            if attrib.startswith('on_'):
-                suffix = attrib[3:]
+            if attrib.startswith('on__'):
+                suffix = attrib[4:]
                 connect = self._widget.connect
-            elif attrib.startswith('after_'):
-                suffix = attrib[6:]
+            elif attrib.startswith('after__'):
+                suffix = attrib[7:]
                 connect = self._widget.connect_after                
             if connect:
                 (widget, signal) = _parse_signal_handler(suffix)
@@ -127,6 +134,9 @@ class Widget:
         if hasattr(self._widget, name):
             return getattr(self._widget, name)    
     
+    def toplevel(self):
+        return self._widget
+    
     def _byebye(self, window):
         # do some finalization here
         print 'closing: %s' % window.get_name()
@@ -146,4 +156,5 @@ class Widget:
     
     #def __setattr__(self, name, value):
     #    setattr(self._widget, name, value)
+
 

@@ -27,8 +27,7 @@ from shakya import Widget
 class SelectDialog(Widget):
     uifile = 'selectdialog.ui'
 
-    def __init__(self):
-        Widget.__init__(self)
+    def init(self):
         self.selected = None        
         self._model = gtk.ListStore(gobject.TYPE_STRING, gobject.TYPE_STRING)
         
@@ -51,14 +50,14 @@ class SelectDialog(Widget):
         for option in options:
             self._model.append(option)
 
-    def on_ok_button__clicked(self, button):
+    def on__ok_button__clicked(self, button):
         listview = self['listview']        
         selection = listview.get_selection()
         model, iter = selection.get_selected()
         self.selected = model.get_value(iter, 0)
         self.destroy()        
 
-    def on_cancel_button__clicked(self, button):
+    def on__cancel_button__clicked(self, button):
         self.destroy()        
 
     

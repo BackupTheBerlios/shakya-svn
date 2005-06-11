@@ -30,6 +30,9 @@ from opendialog import OpenDialog
 from savedialog import SaveDialog
 from selectdialog import SelectDialog
 from objectbrowser import WidgetTree
+from palette import Palette
+from browser import Browser
+from editor import Editor
 
 
 default_locations = { 'main_window': (0, 0),
@@ -37,8 +40,24 @@ default_locations = { 'main_window': (0, 0),
                     }
 
 
+#############################
+
+##from shakya.gazpachowidget import GazpachoWidget
+##from shakya.basewidget import BaseWidget
+##import gazpacho.palette
+##
+##class Palette(GazpachoWidget):
+##    gladefile = 'layout.glade'
+##    widget = 'layout'    
+##    
+##    def init(self):
+##        pass
+
+
+##########################
+
 class MainWindow(Widget):
-    uifile = 'mainwindow.ui'
+    uifile = 'mainwindow.ui'    
 
     def init(self):
         # get screen
@@ -51,21 +70,55 @@ class MainWindow(Widget):
         self.move(0,0)
         #print self.get_position()
        
-        browser = PropertyBrowser(self)
-        browser.show()
-        self.browser = browser
+        palette = Palette(self)
+        palette.show()
         
+        vbox = self['vbox']
+        hpaned = gtk.HPaned()
+        hpaned.show()
+        win.remove(vbox)
+        hpaned.pack1(vbox, shrink=False)
+        hpaned.pack2(palette.toplevel())
+        hpaned.set_property('position', 300)
+        
+        vbox0 = gtk.VBox()
+        vbox0.pack_start(hpaned, expand=False)    
+        centerbox = gtk.HBox()
+        centerbox.show()
+        vbox0.pack_start(centerbox)
+        vbox0.show()
+        win.add(vbox0)        
+        
+        browser = Browser(self)
+        browser.show()
+        centerbox.pack_start(browser.toplevel(), expand=False)
         self.tree = WidgetTree(self)
-        self.tree.show()
-        self.tree.move(0, self.get_height()+60)
+        obtreeview = self.tree['treeview']
+        self.tree.remove(obtreeview)
+        browser.toplevel().append_page(obtreeview)
+        #self.tree.move(0, self.get_height()+60)
+        self.tree.hide()
+        
+        
+        editor = Editor(self)
+        editor.show()
+        centerbox.pack_start(editor.toplevel())
+        
+        propertybrowser = PropertyBrowser(self)
+        self.propertybrowser = propertybrowser
+        pbnotebook = propertybrowser['notebook']        
+        propertybrowser.toplevel().remove(pbnotebook)
+        centerbox.pack_start(pbnotebook, expand=False)        
+        propertybrowser.hide()
+                
         
         self['toolbar'].set_style(gtk.TOOLBAR_ICONS)
         
-        w, h = browser['property_browser'].get_size()
-        browser['property_browser'].move(screen.get_width()-w, self.get_height()+60)
+        #w, h = propertybrowser['property_browser'].get_size()
+        #propertybrowser['property_browser'].move(screen.get_width()-w, self.get_height()+60)
         
 
-    #def on_main_window__show(self, widget):
+    #def on__main_window__show(self, widget):
     
     def set_current_window(self, window):
         self.current_window = window
@@ -73,12 +126,13 @@ class MainWindow(Widget):
         window.set_position(gtk.WIN_POS_CENTER)
         w, h = window.get_default_size()
         if w > 0 and h > 0:
-            window.resize(w, h)
+            window.resize(w, h)        
         window.show()
+        window.set_keep_above(True)
         self.tree.set_widget(window)
     
     
-#    def on_import_ui__activate(self, action):
+#    def on__import_ui__activate(self, action):
 #        filters = [("User Interface files (*.ui)", "*.ui"),
 #                   ("All files", "*")]
 #        dialog = OpenDialog(self['main_window'], filters)
@@ -91,7 +145,7 @@ class MainWindow(Widget):
 #        
 #        dialog.destroy()
 
-    def on_import_glade__activate(self, action):
+    def on__import_glade__activate(self, action):
         filters = [("Glade files (*.glade)", "*.glade"),
                    ("All files", "*")]
         dialog = OpenDialog(self['main_window'], filters)
@@ -118,7 +172,7 @@ class MainWindow(Widget):
             window = xml.get_widget(widget)
             self.set_current_window(window)
 
-    def on_open__activate(self, action):
+    def on__open__activate(self, action):
         filters = [("User Interface files (*.ui)", "*.ui"),
                    ("Python modules (*.py)", "*.py"),
                    ("All files", "*")]
@@ -132,7 +186,7 @@ class MainWindow(Widget):
         
         dialog.destroy()
 
-    def on_save__activate(self, action):
+    def on__save__activate(self, action):
         dialog = SaveDialog(self['main_window'])
         res = dialog.run()
         
@@ -143,10 +197,10 @@ class MainWindow(Widget):
         
         dialog.destroy()
 
-    def on_quit__activate(self, action):
+    def on__quit__activate(self, action):
         self.quit()
 
-    def on_main_window__destroy(self, window):
+    def on__main_window__destroy(self, window):
         self.quit()
 
     def quit(self):
@@ -154,12 +208,12 @@ class MainWindow(Widget):
         self.app().quit()
 
     def set_current_widget(self, widget):
-        self.browser.set_object(widget)
+        self.propertybrowser.set_object(widget)
 
 #browser.set_object(window)
 #window.connect('set-focus', on_focus, browser)    
 
-def on_focus(window, widget, browser):
+def on__focus(window, widget, browser):
     browser.set_object(widget)
     
     if widget is None:

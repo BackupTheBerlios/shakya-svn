@@ -19,23 +19,44 @@
 ############################################################################
 
 import gtk
-import os
+from shakya.widget import Widget
 
-
-class Application:
-    def __init__(self, module, **opt):
-        self.__path = os.path.split(module.__file__)[0]+'/'
+class Palette(Widget):
+    """ 
+    The palette is a widget that have icons of the components that
+    can be used to construct new composite widgets.
     
-    def path(self):
-        return self.__path
+    Once you click such icon, the widget is created on the current
+    User Interface being designed.
+    """
     
-    def run(self):
-        try:
-            gtk.main()
-        except e:
-            print '### Error:', e
-    
-    def quit(self):
-        gtk.main_quit()
+    def load(self):
+        #expander = gtk.Expander()        
+        #expander.set_name('expander')
         
-    
+        notebook = gtk.Notebook()
+        notebook.set_name('notebook')
+        #notebook.show() 
+        #expander.add(notebook)        
+        
+        label = gtk.Label('Palette')
+        label.show()
+        notebook.add(label)
+        
+        self._widget = notebook
+
+    def init(self, **opt):
+        pass
+
+##    def after__expander__activate(self, expander):
+##        parent = expander.get_parent()
+##        #value = parent.child_get_property(expander, 'expand')
+##        #parent.child_set_property(expander, 'expand', not value)
+##        value = parent.child_get_property(expander, 'shrink')
+##        parent.child_set_property(expander, 'shrink', not value)
+##        #expander.set_label(str(value))
+
+
+
+
+

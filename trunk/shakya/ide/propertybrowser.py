@@ -80,10 +80,10 @@ class PropertyBrowser(Widget):
         
         self.add_spacers()
 
-    def on_property_browser__delete_event(self, widget, event):
+    def on__property_browser__delete_event(self, widget, event):
         widget.hide()
         return True
 
 
-    def on_property_browser__destroy(self, widget):
+    def on__property_browser__destroy(self, widget):
         print 'ahhh...'

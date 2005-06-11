@@ -19,23 +19,13 @@
 ############################################################################
 
 import gtk
-import os
+from gazpacho.loader.widgettree import WidgetTree
+from application import Application
+from widget import Widget
 
 
-class Application:
-    def __init__(self, module, **opt):
-        self.__path = os.path.split(module.__file__)[0]+'/'
-    
-    def path(self):
-        return self.__path
-    
-    def run(self):
-        try:
-            gtk.main()
-        except e:
-            print '### Error:', e
-    
-    def quit(self):
-        gtk.main_quit()
-        
-    
+class GazpachoWidget(Widget):
+    def load(self):
+        path = self.app().path()
+        tree = WidgetTree(path+self.gladefile)
+        self._widget = tree.get_widget(self.widget)
